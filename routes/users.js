@@ -6,6 +6,10 @@ const usersController = require('../controllers/users_controller');
 
 router.get('/profile', usersController.profile);
 
+//routes for sign-up and sign-in
+router.get('/sign-up', usersController.signUp);
+router.get('/Sign-in', usersController.signIn);
+
 
 
 
