@@ -1,3 +1,5 @@
-body{
-    background-color: #22f9b5;
+#home-container {
+  margin-top: 4vh;
+  display: flex;
+  align-items: center;
 }

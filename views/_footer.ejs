@@ -1,4 +1,16 @@
 
 <footer>
-    Page Footer
+    <div id="leftCorner">
+        <div>
+            <a href="/">Home</a>
+            <%if(locals.user) { %>
+                <a href="/users/profile/<%= user.id %>">Profile</a>
+            <% } else { %>
+                <a href="/users/sign-in">Sign In</a>
+            <% } %>
+        </div>
+    </div>
+    <div id="rightCorner">
+        <p>© Manoj Pant. All Rights Reserved</p>
+    </div>
 </footer>
