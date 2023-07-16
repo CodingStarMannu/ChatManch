@@ -1,5 +1,7 @@
 #home-container {
-  margin-top: 4vh;
+  margin-top: 5vh;
   display: flex;
+  flex-direction: column;
+  position: fixed;
   align-items: center;
 }

@@ -25,6 +25,10 @@ const MongoStore = require('connect-mongo');
 
 //reading through the post request
 app.use(express.urlencoded());
+app.use(express.json());
+
+// app.use(bodyParser.urlencoded({extended:true}));
+// app.use(bodyParser.json());
 
 //setting up the cookie parser
 app.use(cookieParser());
@@ -67,7 +71,6 @@ app.use(
 
 app.use(passport.initialize());
 app.use(passport.session());
-
 app.use(passport.setAuthenticatedUser);
 
 // Use express router
