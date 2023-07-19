@@ -21,13 +21,25 @@ const Post = require('../models/post');
 
 module.exports.home = function(req, res){
 
-    Post.find({}).then (function(posts){
+    // Post.find({}).then (function(posts){
+    //     return res.render('home',{
+    //         title: "ChatManch | Home",
+    //         posts: posts 
+    //     });
+    //     }).catch((err)=>{
+    //         console.log(err);
+    //     });
+
+    //populate the user of each post
+    Post.find({}).populate('user')
+    .exec()
+    .then(posts =>{
         return res.render('home',{
             title: "ChatManch | Home",
             posts: posts 
-        });
-        }).catch((err)=>{
-            console.log(err);
-        });
-    
+    });
+    }).catch(err =>{
+    console.log(err);
+    });
+
 }
