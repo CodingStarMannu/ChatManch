@@ -4,6 +4,7 @@ const app = express();
 const port = 8000;
 const expressLayouts = require('express-ejs-layouts');
 const dB = require('./config/mongoose');
+const bodyParser = require('body-parser');
 
 //user for session cookie
 const session = require('express-session');
@@ -24,11 +25,10 @@ const MongoStore = require('connect-mongo');
 
 
 //reading through the post request
-app.use(express.urlencoded());
-app.use(express.json());
-
-// app.use(bodyParser.urlencoded({extended:true}));
-// app.use(bodyParser.json());
+// app.use(express.urlencoded());
+// app.use(express.json());
+app.use(bodyParser.urlencoded({extended:true}));
+app.use(bodyParser.json());
 
 //setting up the cookie parser
 app.use(cookieParser());

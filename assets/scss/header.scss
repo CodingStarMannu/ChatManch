@@ -1,27 +1,23 @@
-header
-{
-    background-color:#F35369;
-    position: fixed;
-    color: white;
-    height: 3.5vw;
-    width: 100%;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    a
-    {
-        color: white;
-        text-decoration: none;
-    }
-    #leftCorner
-    {
-        margin-left: 0.5vw;
-        font-weight: bold;
-        font-size: 1.9vw;
-    }
-    #rightCorner
-    {
-        margin-right: 0.5vw;
-        font-size: 1.4vw;
-    }
+header {
+  background-color: #F35369;
+  position:sticky;
+  color: white;
+  height: 3.5vw;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+ a {
+  color: white;
+  text-decoration: none;
 }
+  #leftCorner {
+  margin-left: 0.5vw;
+  font-weight: bold;
+  font-size: 1.9vw;
+ }
+#rightCorner {
+  margin-right: 0.5vw;
+  font-size: 1.4vw;
+}
+ }

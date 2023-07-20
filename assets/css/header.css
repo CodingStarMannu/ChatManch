@@ -1,6 +1,6 @@
 header {
   background-color: #F35369;
-  position: fixed;
+  position: sticky;
   color: white;
   height: 3.5vw;
   width: 100%;

@@ -1,7 +1,13 @@
 #home-container {
-  margin-top: 5vh;
   display: flex;
-  flex-direction: column;
-  position: fixed;
-  align-items: center;
+}
+#home-container #feed-posts {
+  width: 70%;
+  padding: 10px;
+}
+#home-container #user-friends {
+  width: 30%;
+  padding: 10px;
+  border-left: 1px solid lightgray;
+  height: 100%;
 }

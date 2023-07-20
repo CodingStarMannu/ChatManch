@@ -1,9 +1,15 @@
-#home-container
-{
-    margin-top: 5vh;
-    display: flex;
-    flex-direction: column;
-    position: fixed;
-    // justify-content:space-around;
-    align-items: center;
+#home-container {
+  display: flex;
+  
+  #feed-posts{
+    width: 70%;
+    padding: 10px;
+  }
+
+  #user-friends{
+    width: 30%;
+    padding: 10px;
+    border-left: 1px solid lightgray;
+    height: 100%;
+  }
 }

@@ -1,11 +1,36 @@
 const User = require('../models/user');
 
-module.exports.profile = function(req, res){
-    return res.render('user_profile',{
-        title: "User Profile"
+module.exports.profile = async function(req, res) {
+  try {
+    const user = await User.findById(req.params.id).exec();
+    return res.render('user_profile', {
+      title: "User Profile",
+      profile_user: user
     });
-}
+  } catch (err) {
+    console.log(err);
+    // Handle the error here or pass it to the calling function using reject
+  }
+};
 
+module.exports.update = async function(req, res) {
+  try{
+    if(req.user.id == req.params.id){
+
+      const user = await User.findByIdAndUpdate(req.params.id, req.body,{
+        new: true 
+      });
+      return res.redirect('back');
+    }
+    else{
+      return res.status(401).send('Unauthorized');
+    }
+   
+  }catch(err){
+    console.log(err);
+    return;
+  }
+}
 // render the sign up page
 module.exports.signUp = function(req, res){
 
@@ -31,7 +56,7 @@ module.exports.signIn = function(req, res){
 }
 
 
-//get the sing up data
+//get the sign up data
 
 module.exports.create = async function(req, res) {
     if (req.body.password != req.body.confirm_password) {
@@ -56,7 +81,7 @@ module.exports.create = async function(req, res) {
 
 //sign in and create a session for the user
 module.exports.createSession = function(req,res){
-    return res.redirect('/users/profile');
+    return res.redirect('/');
 }
 
 // sign out the user
