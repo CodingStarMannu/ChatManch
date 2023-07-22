@@ -13,11 +13,13 @@ module.exports.create = async function(req, res){
                 });
                 post.comments.push(comment);
                 post.save();
+                req.flash('success', 'Comment added!');
                 res.redirect('/');
             }
     }
     catch(err){
-        console.log("Error in creating the Comments", err);
+        req.flash("error", err);
+        return res.redirect('back');
     }
 }
 
@@ -33,6 +35,7 @@ module.exports.destroy = async function(req,res){
             comment.deleteOne();
 
            await Post.findByIdAndUpdate(postId,{ $pull:{ post:req.params.id }});
+           req.flash('error', 'Comment Deleted!');
            return res.redirect('back');
         }
         else{
@@ -40,6 +43,7 @@ module.exports.destroy = async function(req,res){
         }
 
     }catch(err){
-        console.log("Error in deleting comment", err);
+        req.flash("error", "Error in deleting Comments!");
+        return res.redirect('back');
     }
 }

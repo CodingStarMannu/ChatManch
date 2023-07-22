@@ -8,8 +8,8 @@ module.exports.profile = async function(req, res) {
       profile_user: user
     });
   } catch (err) {
-    console.log(err);
-    // Handle the error here or pass it to the calling function using reject
+    req.flash("error", err);
+    return res.redirect('back');
   }
 };
 

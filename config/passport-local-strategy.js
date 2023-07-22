@@ -6,68 +6,52 @@ const User = require('../models/user');
 
 
 
-// // authentication using passport 
-// passport.use(new LocalStrategy({
-//     usernameField: 'email'
-// },
-// async function(email,password,done){
-//     // find the user and establish the identity
-//     try{
-//         const user = await User.findOne({email:email});
-    
-//         if(!user || user.password != password){
-//             console.log("Invalid Username/Password");
-//             return done(null, false);
-//         }
-//         return done(null, user);
-//     }catch(err){
-//         console.log("Error in finding user --> Passport", err);
-//         return done(err);
-//        }
-//     }
-//   )
-// );
-
-
+// authentication using passport 
 passport.use(new LocalStrategy({
-  usernameField: 'email'
-}, function(email, password, done) {
-  User.findOne({ email: email })
-    .then(function(user) {
-      if (!user || user.password !== password) {
-        console.log("Invalid Username/Password");
-        return done(null, false);
-      }
-      return done(null, user);
-    })
-    .catch(function(err) {
-      console.log("Error in finding user", err);
+    usernameField: 'email',
+    passReqToCallback: true,
+},
+async function(req,email,password,done){
+    // find the user and establish the identity
+    try{
+        const user = await User.findOne({email:email});
+    
+        if(!user || user.password != password){
+          req.flash('error', 'Invalid Username/Password');
+          return done(null, false);
+        }
+        console.log(`${user.name} signed in!`);
+        return done(null, user);
+    }catch(err){
+      req.flash('error', err);
       return done(err);
-    });
-}));
+       }
+    }
+  )
+);
+
+
+//function using promise syntax
 
 // passport.use(new LocalStrategy({
-//         usernameField: 'email',
-//         passReqToCallback: true
-//     },
-//     function(req, email, password, done){
-//         // find a user and establish the identity
-//         User.findOne({email: email}, function(err, user)  {
-//             if (err){
-//                 req.flash('error', err);
-//                 return done(err);
-//             }
+//   usernameField: 'email'
+// }, function(req,email, password, done) {
+//   User.findOne({ email: email })
+//     .then(function(user) {
+//       if (!user || user.password !== password) {
+//        req.flash('error', 'Invalid Username/Password');
+//         return done(null, false);
+//       }
+//       console.log(`${user.name} signed in!`);
+//       return done(null, user);
+//     })
+//     .catch(function(err) {
+//       req.flash('error', err);
+//       return done(err);
+//     });
+// }));
 
-//             if (!user || user.password != password){
-//                 req.flash('error', 'Invalid Username/Password');
-//                 return done(null, false);
-//             }
 
-//             return done(null, user);
-//         });
-//     }
-
-// ));
 
 
 
