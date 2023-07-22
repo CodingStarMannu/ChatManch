@@ -81,44 +81,23 @@ module.exports.create = async function(req, res) {
 
 //sign in and create a session for the user
 module.exports.createSession = function(req,res){
+  req.flash('success', 'Logged in Successfully');
     return res.redirect('/');
 }
 
 // sign out the user
 module.exports.destroySession = function(req, res) {
+  
   req.logout(function(err) {
     if (err) {
-      console.log(err); // Handle the error appropriately
+      console.log(err); 
+      return next(err);// Handle the error appropriately
     }
-    return res.redirect('back');
+    req.flash('success', 'You have logged out!');
+    return res.redirect('/');
   });
 };
 
 
 
 
-// call back functions
-
-// module.exports.create = function(req, res){
-//     if(req.body.password != req.body.confirm_password){
-//         return res.redirect('back');
-//     }
-
-//     User.findOne({email: req.body.email}, function(err, user){
-//         if(err){
-//             console.log("Error in finding user in signing up");
-//             return;
-//         }
-//         //when user not found
-//         if(!user){
-//             User.create(req.body, function(err, user){
-//                 if(err){
-//                     console.log("Error in creating user while signing up");
-//                     return res.redirect('/users/sign-in');
-//                 }
-//             })
-//         }else{
-//             return res.redirect('back');
-//         }
-//     });
-// }
