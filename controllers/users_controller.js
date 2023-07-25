@@ -27,8 +27,8 @@ module.exports.update = async function(req, res) {
     }
    
   }catch(err){
-    console.log(err);
-    return;
+    req.flash("error", err);
+    return res.redirect('back');
   }
 }
 // render the sign up page
