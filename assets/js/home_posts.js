@@ -46,7 +46,7 @@
         <div class="post-comments">
         <form id="post-${ post._id }-comments-form" action="/comments/create" method="POST">
         <input type="text" name="content" placeholder="Write a comment..." required>
-        <input type="hidden" name="post" value="${ post._id }">
+        <input type="hidden" name="post" value="${post._id }">
         <input type="submit" value="Comment">
     </form>
             <div class="post-comments-list">
@@ -68,6 +68,7 @@
                 success: function(data){
                     console.log(data);
                     $(`#post-${data.data.post_id}`).remove();
+                    
 
                     new Noty({
                         theme: 'relax',
@@ -84,24 +85,21 @@
         });
     }
 
-    // let deletePost = function (deleteLink) {
-    //     $(deleteLink).click(async function (e) {
-    //         e.preventDefault();
-    
-    //         try {
-    //             const response = await $.ajax({
-    //                 type: 'get',
-    //                 url: $(this).prop('href'),
-    //             });
-    
-    //             console.log(response);
-    //             $(`#post-${response.data.post_id}`).remove();
-    //         } catch (error) {
-    //             console.log(error.responseText);
-    //         }
+    // let convertPostsToAjax = function(post){
+    //     $('#posts-list-container>ul>li').each(function(){
+
+    //         let self = $(this);
+    //         let deleteButton = $('.delete-post-button', self);
+    //         deletePost(deleteButton);
+
+    //         let postId = self.prop('id').split('-')[1];
+    //         new PostComments(postId);
     //     });
+
     // }
-    
+
 
     createPost();
+    // convertPostsToAjax();
+
 }
