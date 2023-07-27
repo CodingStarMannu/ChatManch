@@ -5,6 +5,7 @@ const port = 8000;
 const expressLayouts = require('express-ejs-layouts');
 const dB = require('./config/mongoose');
 const bodyParser = require('body-parser');
+const path = require('path');
 
 //user for session cookie
 const session = require('express-session');
@@ -29,6 +30,11 @@ app.use(cookieParser());
 
 //set up static folder
 app.use(express.static('./assets'));
+
+//Make the uploads path available to the browser
+app.use('/uploads', express.static(__dirname + '/uploads'));
+console.log(__dirname + '/uploads');
+
 
 app.use(expressLayouts);
 // extract style and scripts from sub pages into the layout
