@@ -1,15 +1,107 @@
-#home-container {
-  display: flex;
-  
-  #feed-posts{
-    width: 70%;
-    padding: 10px;
-  }
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #f7f7f7;
 
-  #user-friends{
-    width: 30%;
-    padding: 10px;
-    border-left: 1px solid lightgray;
-    height: 100%;
-  }
+    #home-container {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      
+        #feed-posts{
+          margin-left: 7%;
+          width: 70%;
+          padding: 10px;
+        }
+
+          #user-friends{
+            width: 30%;
+            padding: 10px;
+            border-left: 1px solid lightgray;
+            height: 100%;
+          }
+
+          a {
+            text-decoration: none;
+            color: #007bff;
+          }
+
+          #new-post-form {
+            margin-bottom: 20px;
+          }
+          
+          #posts-list-container ul {
+            list-style:none;
+            padding: 0;
+          }
+
+          .post {
+            background-color: #fff;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            padding: 15px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+          }
+          .post p {
+            margin: 0;
+            font-size: 16px;
+          }
+          
+          .post small {
+            color: #777;
+          }
+          
+          .post-comments {
+            margin-top: 15px;
+          }
+          
+          .post-comments form {
+            display: flex;
+          }
+          .post-comments input[type="text"] {
+            padding: 8px;
+            margin-right: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+          }
+          
+          .post-comments input[type="submit"] {
+            background-color: #007bff;
+            color: #fff;
+            cursor: pointer;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 5px;
+          }
+
+          #user-friends h4 {
+            margin-bottom: 10px;
+          }
+          
+          #user-friends p {
+            margin: 0;
+            padding: 5px 0;
+            border-bottom: 1px solid #ddd;
+          }
+          
+          #user-friends p:last-child {
+            border-bottom: none;
+          }
+
+          @media screen and (max-width: 768px) {
+            #home-container {
+              flex-direction: column;
+            }
+          
+            #feed-posts {
+              margin-right: 0;
+              margin-bottom: 20px;
+            }
+          }
+          
+
+      
+    }
+
 }

@@ -1,5 +1,5 @@
 const User = require('../models/user');
-// const fs = require('fs');
+const fs = require('fs');
 const path = require('path');
 
 module.exports.profile = async function(req, res) {
@@ -80,6 +80,16 @@ module.exports.update = async function (req, res) {
         user.email = req.body.email;
 
         if (req.file) {
+          // for handling existing avatar
+          if(user.avatar){
+
+            let currAvatarPath =path.join(__dirname, '..' , user.avatar);
+            
+            if(fs.existsSync(currAvatarPath)){
+              fs.unlinkSync(currAvatarPath);
+            }
+
+          }
           // Use path.join to join the path segments with the correct separator
           user.avatar = path.join(User.avatarPath, req.file.filename);
         }

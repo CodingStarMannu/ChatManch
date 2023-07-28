@@ -1,13 +1,87 @@
-#home-container {
-  display: flex;
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #f7f7f7;
 }
-#home-container #feed-posts {
+body #home-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+body #home-container #feed-posts {
+  margin-left: 7%;
   width: 70%;
   padding: 10px;
 }
-#home-container #user-friends {
+body #home-container #user-friends {
   width: 30%;
   padding: 10px;
   border-left: 1px solid lightgray;
   height: 100%;
+}
+body #home-container a {
+  text-decoration: none;
+  color: #007bff;
+}
+body #home-container #new-post-form {
+  margin-bottom: 20px;
+}
+body #home-container #posts-list-container ul {
+  list-style: none;
+  padding: 0;
+}
+body #home-container .post {
+  background-color: #fff;
+  border-radius: 5px;
+  margin-bottom: 20px;
+  padding: 15px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+body #home-container .post p {
+  margin: 0;
+  font-size: 16px;
+}
+body #home-container .post small {
+  color: #777;
+}
+body #home-container .post-comments {
+  margin-top: 15px;
+}
+body #home-container .post-comments form {
+  display: flex;
+}
+body #home-container .post-comments input[type=text] {
+  padding: 8px;
+  margin-right: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+body #home-container .post-comments input[type=submit] {
+  background-color: #007bff;
+  color: #fff;
+  cursor: pointer;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 5px;
+}
+body #home-container #user-friends h4 {
+  margin-bottom: 10px;
+}
+body #home-container #user-friends p {
+  margin: 0;
+  padding: 5px 0;
+  border-bottom: 1px solid #ddd;
+}
+body #home-container #user-friends p:last-child {
+  border-bottom: none;
+}
+@media screen and (max-width: 768px) {
+  body #home-container #home-container {
+    flex-direction: column;
+  }
+  body #home-container #feed-posts {
+    margin-right: 0;
+    margin-bottom: 20px;
+  }
 }
