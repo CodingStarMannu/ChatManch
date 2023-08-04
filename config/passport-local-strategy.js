@@ -9,7 +9,7 @@ const User = require('../models/user');
 // authentication using passport 
 passport.use(new LocalStrategy({
     usernameField: 'email',
-    passReqToCallback: true,
+    passReqToCallback: true,                   
 },
 async function(req,email,password,done){
     // find the user and establish the identity
@@ -56,14 +56,14 @@ async function(req,email,password,done){
 
 
 // serializing the user to decide which key is to be kept in the cookies
-
+// save the id or name in the session
 passport.serializeUser(function(user,done){
     done(null, user.id);
 });
 
 
 //deserializing the user from the key in the cookies
-
+// getting the id or (user) from the session
 
 passport.deserializeUser(async function(id, done) {
     try {
