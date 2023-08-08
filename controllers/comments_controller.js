@@ -1,5 +1,10 @@
 const Comment = require('../models/comment');
 const Post = require('../models/post');
+const commentsMailer = require('../mailers/comments_mailer');
+const queue = require('../config/kue');
+const commentEmailWorker = require('../workers/comment_email_worker');
+
+
 
 module.exports.create = async function(req, res){
  
@@ -11,8 +16,37 @@ module.exports.create = async function(req, res){
                     post: req.body.post,
                     user: req.user._id
                 });
+                comment = await Comment.findById(comment._id);
                 post.comments.push(comment);
-                post.save();
+                await post.save();
+
+                console.log("working@@@@");
+
+                comment = await  comment.populate('user','name email');
+
+                console.log(comment);
+                // commentsMailer.newComment(comment);
+                
+                let job = await queue.create('emails', comment).save(function(err){
+                    if(err){
+                        console.log('Error in creating a queue', err);
+                        return;
+                    }
+
+                    console.log('job enqueued', job.id);
+                })
+
+                if(req.xhr){
+                    //similar for comments to fetch user's id!
+
+
+                    return res.status(200).json({
+                        data:{
+                            comment: comment 
+                        },
+                        message: 'Post Created'
+                    });
+                }
                 req.flash('success', 'Comment added!');
                 res.redirect('/');
             }

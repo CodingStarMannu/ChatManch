@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>New Comment Published on ChatManch</title>
+    <link rel="stylesheet" href="./css/new_comment.css">
+</head>
+<body>
+    <div class="container">
+        <h1>New Comment Published on ChatManch</h1>
+        <p>
+            Hi <%= comment.user.name %>,
+        </p>
+        <p>
+            Your comment <strong><%= comment.content %></strong> just got published on ChatManch!
+        </p>
+        <p>
+            Thanks!
+        </p>
+        <p>
+            <a href="https://www.chatmanch.com" class="btn">Visit ChatManch</a>
+        </p>
+    </div>
+</body>
+</html>

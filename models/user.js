@@ -19,6 +19,14 @@ const userSchema  = new mongoose.Schema({
         type: String,
         required: true 
     },
+    accessToken:{
+        type: String,
+        default: "abcdef"
+    },
+    isTokenValid:{
+        type: Boolean,
+        default: false
+    },
     avatar:{
         type: String
     }
