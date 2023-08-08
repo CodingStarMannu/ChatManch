@@ -1,6 +1,9 @@
 const User = require('../models/user');
 const fs = require('fs');
 const path = require('path');
+const crypto = require('crypto');
+const queue = require('../config/kue');
+const userEmailWorker = require('../workers/user_email_worker');
 
 module.exports.profile = async function(req, res) {
   try {
@@ -15,55 +18,87 @@ module.exports.profile = async function(req, res) {
   }
 };
 
-// module.exports.update = async function(req, res) {
-  
-  // try{
-    // if(req.user.id == req.params.id){
 
-    //   const user = await User.findByIdAndUpdate(req.params.id, req.body,{
-    //     new: true 
-    //   });
-    //   return res.redirect('back');
-    // }
-    // else{
-    //   return res.status(401).send('Unauthorized');
-    // }
+module.exports.resetPassword = function(req, res){
+  return res.render('reset_password',{
+      title: 'ChatManch | Reset Password',
+      access: false
+  });
+}
 
-//   if(req.user.id == req.params.id){
+module.exports.resetPassMail = async function(req, res) {
+  try {
+    const user = await User.findOne({ email: req.body.email });
 
-//   try{
+    if (user) {
+      if (!user.isTokenValid) {
+        user.accessToken = crypto.randomBytes(30).toString('hex');
+        user.isTokenValid = true;
+        await user.save();
+      }
 
-//     let user = await User.findById(req.params.id);
-//     User.uploadedAvatar(req, res, function(err){
-//       if(err){
-//         console.log('*********Multer Error',err);
-//       }
+      const job = await queue.create('user-emails', user).save();
 
-//       user.name = req.body.name;
-//       user.email = req.body.email;
+      req.flash('success', 'Password reset link sent. Please check your email');
+      return res.redirect('/');
+    } else {
+      req.flash('error', 'User not found. Try again!');
+      return res.redirect('back');
+    }
+  } catch (err) {
+    console.log('Error:', err);
+    req.flash('error', 'An error occurred. Please reset password again!.');
+    return res.redirect('back');
+  }
+};
 
-//       if(req.file){
-        // if(user.avatar){
-        //   let currAvatarPath = path.join(__dirname,'..', user.avatar);
-        //   if(fs.existsSync(currAvatarPath)){
-        //     fs.unlinkSync(currAvatarPath);
-        //   }
-        // }
-    // this is for saving the path of the uploaded file into the avatar field in the user
-//       user.avatar = User.avatarPath + '//' + req.file.filename;
-//       }
-//       user.save();
-//       return res.redirect('back');
-//     });
-//   }
-//   catch(err){
-//     req.flash("error", err);
-//     return res.redirect('back');
-//   }
-// }else{
-//   req.flash('error', 'Unauthorized');
-//   return res.status(401).send('Unauthorized');
-// }
+module.exports.setPassword = async function(req, res) {
+  try {
+    const user = await User.findOne({ accessToken: req.params.accessToken });
+
+    if (user && user.isTokenValid) {
+      return res.render('reset_password', {
+        title: 'ChatManch | Reset Password',
+        access: true,
+        accessToken: req.params.accessToken
+      });
+    } else {
+      req.flash('error', 'Link expired');
+      return res.redirect('/users/reset-password');
+    }
+  } catch (err) {
+    console.log('Error:', err);
+    req.flash('error', 'An error occurred. Please Set your Password again!.');
+    return res.redirect('/users/reset-password');
+  }
+};
+
+
+module.exports.updatePassword = async function(req, res) {
+  try {
+    const user = await User.findOne({ accessToken: req.params.accessToken });
+
+    if (user && user.isTokenValid) {
+      if (req.body.newPass === req.body.confirmPass) {
+        user.password = req.body.newPass;
+        user.isTokenValid = false;
+        await user.save();
+        req.flash('success', 'Password updated. Login now!');
+        return res.redirect('/users/sign-in');
+      } else {
+        req.flash('error', "Passwords don't match");
+        return res.redirect('back');
+      }
+    } else {
+      req.flash('error', 'Link expired');
+      return res.redirect('/users/reset-password');
+    }
+  } catch (err) {
+    console.log('Error:', err);
+    req.flash('error', 'An error occurred in updating password. Please try again later.');
+    return res.redirect('/users/reset-password');
+  }
+};
 
 module.exports.update = async function (req, res) {
   if (req.user.id == req.params.id) {
