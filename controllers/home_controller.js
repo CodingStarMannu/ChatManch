@@ -1,29 +1,13 @@
 const Post = require('../models/post');
 const User = require('../models/user');
-
-// module.exports.home = async function(req,res){
-
-    // console.log(req.cookies);
-    // res.cookie('user_id', 25);
-    // res.cookie('something', 50);
-
-// try{
-//     const posts = await Post.find({});
-//     return res.render('home',{
-//         title: " ChatManch|Home",
-//         posts: posts 
-//     });
-// }catch(err){
-//   console.log(err);
-//   return;
-// }
-// }
+const Like = require('../models/like');
 
 
 module.exports.home = async function(req, res){
 
-    //populate the user of each post
     try{
+        //populate the user of each post
+        // populate the likes of each post and comment
 
         const posts = await Post.find({}).sort("-createdAt")
         .populate('user')
@@ -31,8 +15,12 @@ module.exports.home = async function(req, res){
             path: 'comments',
             populate:{
                 path:'user'
+            },
+            populate:{
+                path:'likes'
             }
-        })
+        }).populate('likes');
+
         const users = await User.find({});
 
         return res.render('home',{
