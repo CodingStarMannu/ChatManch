@@ -1,5 +1,6 @@
 <link rel="stylesheet" href="./css/home.css">
 
+
 <div id="home-container">
 
     <section id="feed-posts">
@@ -22,6 +23,7 @@
         </ul>
     </div>
 </section>
+    <%- include('_chat_box');%>
     <section id="user-friends">
         <h4>Friends</h4>
         <% for (u of all_users) { %> 
