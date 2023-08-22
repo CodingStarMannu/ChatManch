@@ -1,3 +1,5 @@
+require('dotenv').config();
+const env = require('./config/environment');
 const express = require('express');
 const cookieParser = require('cookie-parser');
 const app = express();
@@ -39,7 +41,7 @@ app.use(bodyParser.json());
 app.use(cookieParser());
 
 //set up static folder
-app.use(express.static('./assets'));
+app.use(express.static(env.asset_path));
 
 //Make the uploads path available to the browser
 app.use('/uploads', express.static(__dirname + '/uploads'));
@@ -62,7 +64,7 @@ app.use(
     session({
       name: 'ChatManch',
       // TODO change the secret before deployment in production mode
-      secret: 'blahSomething',
+      secret: env.session_cookie_key,
       saveUninitialized: false,
       resave: false,
       cookie: {
