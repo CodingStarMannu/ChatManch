@@ -1,5 +1,6 @@
 require('dotenv').config();
 const env = require('./config/environment');
+const logger = require('morgan');
 const express = require('express');
 const cookieParser = require('cookie-parser');
 const app = express();
@@ -8,6 +9,8 @@ const expressLayouts = require('express-ejs-layouts');
 const dB = require('./config/mongoose');
 const bodyParser = require('body-parser');
 const path = require('path');
+
+
 
 //user for session cookie
 const session = require('express-session');
@@ -45,7 +48,9 @@ app.use(express.static(env.asset_path));
 
 //Make the uploads path available to the browser
 app.use('/uploads', express.static(__dirname + '/uploads'));
-console.log(__dirname + '/uploads');
+
+
+app.use(logger(env.morgan.mode, env.morgan.options));
 
 
 app.use(expressLayouts);
